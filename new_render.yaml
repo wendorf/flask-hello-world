@@ -1,0 +1,22 @@
+projects:
+  - name: New Project
+    environments:
+    - name: Production
+      services:
+        - name: flask-hello-world
+          type: web
+          plan: starter
+          runtime: python       
+          buildCommand: 'pip install -r requirements.txt'
+          startCommand: 'gunicorn app:app'
+          buildFilter:
+            paths:
+              - test/changed 
+      databases:
+        - name: test_logical_replication
+          plan: pro-4gb
+        - name: test_stuck_db
+          databaseName: stuck_db
+          user: stuck_user
+          plan: basic-256mb
+          ipAllowList: []
